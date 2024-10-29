@@ -2,7 +2,6 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import umc.spring.domain.common.BaseEntity;
 
 import java.util.ArrayList;
@@ -19,16 +18,22 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 30)
     private String name;
 
+    @Column(nullable = false, length = 20)
     private String category;
 
+    @Column(nullable = false, length = 100)
     private String address;
 
+    @Column(name = "operating_hours", length = 20)
     private String operatingHours;
 
+    @Column(name = "owner_code", nullable = false, length = 10)
     private String ownerCode;
 
+    @Column(nullable = false)
     private Float rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
