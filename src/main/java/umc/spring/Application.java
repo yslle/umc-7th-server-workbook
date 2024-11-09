@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import umc.spring.domain.Review;
 import umc.spring.domain.enums.MissionStatus;
+import umc.spring.service.member.MemberQueryService;
 import umc.spring.service.mission.MissionQueryService;
 import umc.spring.service.review.ReviewCommandService;
+import umc.spring.web.dto.member.response.MemberResponseDTO;
 import umc.spring.web.dto.mission.response.MissionResponseDTO;
 
 import java.util.List;
@@ -79,6 +81,7 @@ public class Application {
 			System.out.println("Created Review: " + review);
 */
 
+/*
 			// 홈 화면 조회
 			MissionQueryService missionQueryService = context.getBean(MissionQueryService.class);
 
@@ -93,7 +96,18 @@ public class Application {
 
 			List<MissionResponseDTO.MissionHomeDTO> missions = missionQueryService.getMissionsForHome(memberId, regionName, page);
 			missions.forEach(System.out::println);
+*/
 
+			// 마이 페이지 조회
+			MemberQueryService memberQueryService = context.getBean(MemberQueryService.class);
+
+			Long memberId = 1L;
+
+			System.out.println("Executing getMemberById with parameters:");
+			System.out.println("MemberId: " + memberId);
+
+			MemberResponseDTO.MyPageDTO member = memberQueryService.getMemberById(memberId);
+			System.out.println("Member Info: " + member);
 		};
 	}
 }
