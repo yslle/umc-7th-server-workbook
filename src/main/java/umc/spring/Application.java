@@ -10,6 +10,9 @@ import umc.spring.domain.Review;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.service.mission.MissionQueryService;
 import umc.spring.service.review.ReviewCommandService;
+import umc.spring.web.dto.mission.response.MissionResponseDTO;
+
+import java.util.List;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -57,6 +60,7 @@ public class Application {
 					.forEach(System.out::println);
 */
 
+/*
 			// 리뷰 작성
 			ReviewCommandService reviewCommandService = context.getBean(ReviewCommandService.class);
 
@@ -73,6 +77,23 @@ public class Application {
 
 			Review review = reviewCommandService.createReview(rating, content, memberId, storeId);
 			System.out.println("Created Review: " + review);
+*/
+
+			// 홈 화면 조회
+			MissionQueryService missionQueryService = context.getBean(MissionQueryService.class);
+
+			Long memberId = 1L;
+			String regionName = "서울";
+			int page = 1;
+
+			System.out.println("Executing findMissionsForHome with parameters:");
+			System.out.println("MemberId: " + memberId);
+			System.out.println("RegionName: " + regionName);
+			System.out.println("Page: " + page);
+
+			List<MissionResponseDTO.MissionHomeDTO> missions = missionQueryService.getMissionsForHome(memberId, regionName, page);
+			missions.forEach(System.out::println);
+
 		};
 	}
 }
