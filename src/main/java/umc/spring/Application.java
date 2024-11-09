@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import umc.spring.domain.Review;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.service.mission.MissionQueryService;
-import umc.spring.service.store.StoreQueryService;
+import umc.spring.service.review.ReviewCommandService;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -38,6 +39,7 @@ public class Application {
 					.forEach(System.out::println);
 */
 
+/*
 			// 내가 진행 중인, 진행한 미션 조회
 			MissionQueryService missionQueryService = context.getBean(MissionQueryService.class);
 
@@ -53,7 +55,24 @@ public class Application {
 
 			missionQueryService.getMissionsByMemberAndStatus(memberId, missionStatus, page)
 					.forEach(System.out::println);
+*/
 
+			// 리뷰 작성
+			ReviewCommandService reviewCommandService = context.getBean(ReviewCommandService.class);
+
+			Float rating = 5.0f;
+			String content = "음 너무 맛있어요 ..";
+			Long memberId = 1L;
+			Long storeId = 1L;
+
+			System.out.println("Executing createReview with parameters:");
+			System.out.println("rating: " + rating);
+			System.out.println("content: " + content);
+			System.out.println("memberId: " + memberId);
+			System.out.println("storeId: " + storeId);
+
+			Review review = reviewCommandService.createReview(rating, content, memberId, storeId);
+			System.out.println("Created Review: " + review);
 		};
 	}
 }
