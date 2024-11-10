@@ -24,9 +24,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner run(ApplicationContext context) {
-		return args -> {
+//	@Bean
+//	public CommandLineRunner run(ApplicationContext context) {
+//		return args -> {
 /*
 			// 실습
 			StoreQueryService storeService = context.getBean(StoreQueryService.class);
@@ -98,6 +98,7 @@ public class Application {
 			missions.forEach(System.out::println);
 */
 
+/*
 			// 마이 페이지 조회
 			MemberQueryService memberQueryService = context.getBean(MemberQueryService.class);
 
@@ -108,6 +109,8 @@ public class Application {
 
 			MemberResponseDTO.MyPageDTO member = memberQueryService.getMemberById(memberId);
 			System.out.println("Member Info: " + member);
-		};
-	}
+*/
+
+//		};
+//	}
 }
