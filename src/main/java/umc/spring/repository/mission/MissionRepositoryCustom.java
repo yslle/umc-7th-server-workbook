@@ -7,7 +7,7 @@ import umc.spring.web.dto.mission.response.MissionResponseDTO;
 import java.util.List;
 
 public interface MissionRepositoryCustom {
-    List<Mission> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page);
+    List<MissionResponseDTO.MissionDTO> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page);
 
     List<MissionResponseDTO.MissionHomeDTO> findMissionsForHome(Long memberId, String regionName, int page);
 }

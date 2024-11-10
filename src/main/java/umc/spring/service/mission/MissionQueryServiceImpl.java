@@ -18,7 +18,7 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     private final MissionRepository missionRepository;
 
     @Override
-    public List<Mission> getMissionsByMemberAndStatus(Long memberId, MissionStatus status, int page) {
+    public List<MissionResponseDTO.MissionDTO> getMissionsByMemberAndStatus(Long memberId, MissionStatus status, int page) {
         return missionRepository.findMissionsByMemberIdAndStatus(memberId, status, page);
     }
 

@@ -30,4 +30,12 @@ public class MissionResponseDTO {
         }
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class MissionDTO {
+        private Long missionId;
+        private Integer price;
+        private Integer reward;
+        private String storeName;
+    }
 }

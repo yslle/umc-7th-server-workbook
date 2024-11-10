@@ -26,9 +26,16 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
     private final QRegion region = QRegion.region;
 
     @Override
-    public List<Mission> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page) {
+    public List<MissionResponseDTO.MissionDTO> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page) {
         return queryFactory
-                .selectFrom(mission)
+                .select(Projections.constructor(
+                        MissionResponseDTO.MissionDTO.class,
+                        mission.id,
+                        mission.price,
+                        mission.reward,
+                        mission.store.name
+                ))
+                .from(mission)
                 .join(memberMission).on(mission.id.eq(memberMission.mission.id))
                 .where(
                         memberMission.member.id.eq(memberId),
