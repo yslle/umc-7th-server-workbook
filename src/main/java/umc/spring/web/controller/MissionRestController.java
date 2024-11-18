@@ -1,4 +1,4 @@
-package umc.spring.web.controller.mission;
+package umc.spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/missions")
 @RequiredArgsConstructor
-public class MissionController {
+public class MissionRestController {
 
     private final MissionQueryService missionQueryService;
 
