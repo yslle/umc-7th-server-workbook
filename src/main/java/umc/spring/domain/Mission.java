@@ -29,6 +29,9 @@ public class Mission extends BaseEntity {
     @Column(nullable = false)
     private Integer reward;
 
+    @Column(nullable = false)
+    private String ownerCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;

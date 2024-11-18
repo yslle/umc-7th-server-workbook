@@ -33,6 +33,8 @@ public class QMission extends EntityPathBase<Mission> {
 
     public final ListPath<umc.spring.domain.mapping.MemberMission, umc.spring.domain.mapping.QMemberMission> memberMissionList = this.<umc.spring.domain.mapping.MemberMission, umc.spring.domain.mapping.QMemberMission>createList("memberMissionList", umc.spring.domain.mapping.MemberMission.class, umc.spring.domain.mapping.QMemberMission.class, PathInits.DIRECT2);
 
+    public final StringPath ownerCode = createString("ownerCode");
+
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
     public final NumberPath<Integer> reward = createNumber("reward", Integer.class);

@@ -39,8 +39,6 @@ public class QStore extends EntityPathBase<Store> {
 
     public final StringPath operatingHours = createString("operatingHours");
 
-    public final StringPath ownerCode = createString("ownerCode");
-
     public final NumberPath<Float> rating = createNumber("rating", Float.class);
 
     public final QRegion region;

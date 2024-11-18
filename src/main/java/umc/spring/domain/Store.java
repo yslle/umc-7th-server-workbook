@@ -30,9 +30,6 @@ public class Store extends BaseEntity {
     @Column(name = "operating_hours", length = 20)
     private String operatingHours;
 
-    @Column(name = "owner_code", nullable = false, length = 10)
-    private String ownerCode;
-
     @Column(nullable = false)
     private Float rating;
 
@@ -55,5 +52,13 @@ public class Store extends BaseEntity {
                 ", score=" + rating +
                 ", region=" + (region != null ? region.getName() : "N/A") + // region의 이름 출력
                 '}';
+    }
+
+    public void setRegion(Region region) {
+        if (this.region != null) {
+            this.region.getStoreList().remove(this);
+        }
+        this.region = region;
+        region.getStoreList().add(this);
     }
 }
