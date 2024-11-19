@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class StoreResponseDTO {
 
@@ -13,8 +14,21 @@ public class StoreResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CreateResultDTO{
+    public static class CreateResultDTO {
         Long storeId;
+        LocalDateTime createdAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateReviewResultDTO {
+        Long reviewId;
+        Float rating;
+        String content;
+        String writer;
+        List<String> imageUrls;
         LocalDateTime createdAt;
     }
 }

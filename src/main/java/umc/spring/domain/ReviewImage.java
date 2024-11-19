@@ -21,4 +21,13 @@ public class ReviewImage extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
+
+    public void setReview(Review review) {
+        if (this.review != null) {
+            this.review.getReviewImageList().remove(this);
+        }
+
+        this.review = review;
+        review.getReviewImageList().add(this);
+    }
 }
