@@ -9,4 +9,6 @@ public interface StoreQueryService {
     Optional<Store> findStore(Long id);
 
     List<Store> findStoresByNameAndRating(String name, Float rating);
+
+    boolean checkIfStoreExist(Long storeId);
 }

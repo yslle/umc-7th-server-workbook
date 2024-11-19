@@ -9,4 +9,6 @@ public interface MissionQueryService {
     List<MissionResponseDTO.MissionResultDTO> getMissionsByMemberAndStatus(Long memberId, MissionStatus status, int page);
 
     List<MissionResponseDTO.MissionHomeDTO> getMissionsForHome(Long memberId, String regionName, int page);
+
+    boolean checkIfMissionIsProgressing(Long memberId, Long missionId);
 }

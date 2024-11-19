@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.enums.MissionStatus;
+import umc.spring.repository.mission.MemberMissionRepository;
 import umc.spring.repository.mission.MissionRepository;
 import umc.spring.web.dto.mission.response.MissionResponseDTO;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class MissionQueryServiceImpl implements MissionQueryService {
 
     private final MissionRepository missionRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
     @Override
     public List<MissionResponseDTO.MissionResultDTO> getMissionsByMemberAndStatus(Long memberId, MissionStatus status, int page) {
@@ -24,6 +26,11 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     @Override
     public List<MissionResponseDTO.MissionHomeDTO> getMissionsForHome(Long memberId, String regionName, int page) {
         return missionRepository.findMissionsForHome(memberId, regionName, page);
+    }
+
+    @Override
+    public boolean checkIfMissionIsProgressing(Long memberId, Long missionId) {
+        return memberMissionRepository.findByMemberIdAndMissionIdAndStatus(memberId, missionId, MissionStatus.PROGRESSING).isPresent();
     }
 
 }
