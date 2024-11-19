@@ -6,11 +6,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
+import umc.spring.converter.MissionConverter;
 import umc.spring.converter.StoreConverter;
+import umc.spring.domain.Mission;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.service.mission.MissionCommandService;
 import umc.spring.service.store.StoreCommandService;
 import umc.spring.validation.annotation.ExistStores;
+import umc.spring.web.dto.mission.request.MissionRequestDTO;
+import umc.spring.web.dto.mission.response.MissionResponseDTO;
 import umc.spring.web.dto.store.request.StoreRequestDTO;
 import umc.spring.web.dto.store.response.StoreResponseDTO;
 
@@ -21,6 +26,7 @@ import umc.spring.web.dto.store.response.StoreResponseDTO;
 public class StoreRestController {
 
     private final StoreCommandService storeCommandService;
+    private final MissionCommandService missionCommandService;
 
     @Operation(summary = "가게 추가 API", description = "특정 지역에 가게를 추가합니다.")
     @PostMapping
@@ -37,5 +43,12 @@ public class StoreRestController {
         return ApiResponse.onSuccess(StoreConverter.toCreateReviewResultDTO(review));
     }
 
+    @Operation(summary = "미션 추가 API", description = "특정 가게에 미션을 추가합니다.")
+    @PostMapping("/{storeId}/missions")
+    public ApiResponse<MissionResponseDTO.MissionResultDTO> createMission(@PathVariable(name = "storeId") Long storeId,
+                                                                          @Valid @RequestBody MissionRequestDTO.CreateMissionDTO request) {
+        Mission mission = missionCommandService.createMission(storeId, request);
+        return ApiResponse.onSuccess(MissionConverter.toCreateResultDTO(mission));
+    }
 
 }

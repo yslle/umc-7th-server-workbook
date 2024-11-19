@@ -1,7 +1,9 @@
 package umc.spring.web.dto.mission.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -30,12 +32,15 @@ public class MissionResponseDTO {
         }
     }
 
+    @Builder
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
-    public static class MissionDTO {
+    public static class MissionResultDTO {
         private Long missionId;
         private Integer price;
         private Integer reward;
+        private Long storeId;
         private String storeName;
     }
 }

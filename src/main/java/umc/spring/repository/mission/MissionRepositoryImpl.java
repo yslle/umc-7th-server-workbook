@@ -4,7 +4,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import umc.spring.domain.Mission;
 import umc.spring.domain.QMission;
 import umc.spring.domain.QRegion;
 import umc.spring.domain.QStore;
@@ -26,10 +25,10 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
     private final QRegion region = QRegion.region;
 
     @Override
-    public List<MissionResponseDTO.MissionDTO> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page) {
+    public List<MissionResponseDTO.MissionResultDTO> findMissionsByMemberIdAndStatus(Long memberId, MissionStatus status, int page) {
         return queryFactory
                 .select(Projections.constructor(
-                        MissionResponseDTO.MissionDTO.class,
+                        MissionResponseDTO.MissionResultDTO.class,
                         mission.id,
                         mission.price,
                         mission.reward,

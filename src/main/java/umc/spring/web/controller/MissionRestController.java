@@ -20,8 +20,8 @@ public class MissionRestController {
 
     // 미션 목록 조회(진행 중, 진행 완료) API
     @GetMapping
-    public List<MissionResponseDTO.MissionDTO> getMissionsByMemberAndStatus(@RequestParam(name = "memberId") Long memberId, @RequestParam(name = "status") MissionStatus status,
-                                                                 @RequestParam(name = "page", defaultValue = "0") int page) {
+    public List<MissionResponseDTO.MissionResultDTO> getMissionsByMemberAndStatus(@RequestParam(name = "memberId") Long memberId, @RequestParam(name = "status") MissionStatus status,
+                                                                                  @RequestParam(name = "page", defaultValue = "0") int page) {
         return missionQueryService.getMissionsByMemberAndStatus(memberId, status, page);
     }
 }
