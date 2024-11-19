@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.apiPayload.exception.handler.MissionHandler;
+import umc.spring.apiPayload.exception.handler.RegionHandler;
 import umc.spring.apiPayload.exception.handler.StoreHandler;
 import umc.spring.converter.MissionConverter;
 import umc.spring.domain.Member;
@@ -15,6 +17,7 @@ import umc.spring.repository.member.MemberRepository;
 import umc.spring.repository.mission.MemberMissionRepository;
 import umc.spring.repository.mission.MissionRepository;
 import umc.spring.repository.store.StoreRepository;
+import umc.spring.web.dto.member.request.MemberRequestDTO;
 import umc.spring.web.dto.mission.request.MissionRequestDTO;
 
 import java.util.List;
@@ -52,5 +55,21 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
         memberMissionRepository.saveAll(memberMissions);
         return savedMission;
+    }
+
+    @Override
+    public MemberMission updateMemberMissionStatus(MemberRequestDTO.UpdateMemberMissionDTO request) {
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new RegionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Mission mission = missionRepository.findById(request.getMissionId())
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.MISSION_NOT_FOUND));
+
+        // MemberMission 조회
+        MemberMission memberMission = memberMissionRepository.findByMemberAndMission(member, mission)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MEMBER_MISSION_NOT_FOUND));
+
+        // MemberMission status 변경
+        memberMission.setStatus(MissionStatus.PROGRESSING);
+        return memberMission;
     }
 }
