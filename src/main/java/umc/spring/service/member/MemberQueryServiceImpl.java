@@ -9,8 +9,11 @@ import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.RegionHandler;
 import umc.spring.domain.Member;
 import umc.spring.domain.Review;
+import umc.spring.domain.enums.MissionStatus;
+import umc.spring.domain.mapping.MemberMission;
 import umc.spring.repository.member.FoodCategoryRepository;
 import umc.spring.repository.member.MemberRepository;
+import umc.spring.repository.mission.MemberMissionRepository;
 import umc.spring.repository.review.ReviewRepository;
 import umc.spring.web.dto.member.response.MemberResponseDTO;
 
@@ -24,6 +27,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberRepository memberRepository;
     private final FoodCategoryRepository foodCategoryRepository;
     private final ReviewRepository reviewRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
     @Override
     public MemberResponseDTO.MyPageDTO getMemberById(Long memberId) {
@@ -41,5 +45,12 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new RegionHandler(ErrorStatus.MEMBER_NOT_FOUND));
         return reviewRepository.findAllByMember(member, PageRequest.of(page, 10));
+    }
+
+    @Override
+    public Page<MemberMission> getMyMissionList(Integer page, MissionStatus status) {
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new RegionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        return memberMissionRepository.findByMemberAndStatus(member, status, PageRequest.of(page, 10));
     }
 }

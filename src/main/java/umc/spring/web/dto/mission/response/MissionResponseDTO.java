@@ -69,4 +69,31 @@ public class MissionResponseDTO {
         Boolean isLast;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionPreViewDTO {
+        Long missionId;
+        Integer price;
+        Integer reward ;
+        LocalDate deadline;
+        Long storeId;
+        String storeName;
+        String storeCategory;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionPreViewListDTO {
+        List<MyMissionPreViewDTO> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
 }
