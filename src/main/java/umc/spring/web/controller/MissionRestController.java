@@ -41,4 +41,11 @@ public class MissionRestController {
         MemberMission memberMission = missionCommandService.updateMemberMissionStatus(request);
         return ApiResponse.onSuccess(MemberMissionConverter.toUpdateMemberMissionDTO(memberMission));
     }
+
+    @Operation(summary = "진행 중인 미션 진행 완료로 바꾸기 API", description = "진행 중인 미션을 진행 완료로 바꾸는 API입니다.")
+    @PutMapping("/{memberMissionId}/complete")
+    public ApiResponse<MemberResponseDTO.UpdateMemberMissionResultDTO> updateMemberMissionStatus(@PathVariable(name = "memberMissionId") Long memberMissionId) {
+        MemberMission memberMission = missionCommandService.updateMemberMissionStatusToComplete(memberMissionId);
+        return ApiResponse.onSuccess(MemberMissionConverter.toUpdateMemberMissionDTO(memberMission));
+    }
 }

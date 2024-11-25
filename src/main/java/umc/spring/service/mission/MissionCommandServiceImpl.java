@@ -69,7 +69,19 @@ public class MissionCommandServiceImpl implements MissionCommandService {
                 .orElseThrow(() -> new MissionHandler(ErrorStatus.MEMBER_MISSION_NOT_FOUND));
 
         // MemberMission status 변경
-        memberMission.setStatus(MissionStatus.PROGRESSING);
+        memberMission.updateStatus(MissionStatus.PROGRESSING);
+        return memberMission;
+    }
+
+    @Override
+    public MemberMission updateMemberMissionStatusToComplete(Long memberMissionId) {
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new RegionHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        MemberMission memberMission = memberMissionRepository.findByIdAndMember(memberMissionId, member)
+                .orElseThrow(() -> new MissionHandler((ErrorStatus.MEMBER_MISSION_NOT_FOUND)));
+
+        // MemberMission status 변경
+        memberMission.updateStatus(MissionStatus.COMPLETED);
         return memberMission;
     }
 }

@@ -9,4 +9,6 @@ public interface MissionCommandService {
     Mission createMission(Long storeId, MissionRequestDTO.CreateMissionDTO request);
 
     MemberMission updateMemberMissionStatus(MemberRequestDTO.UpdateMemberMissionDTO request);
+
+    MemberMission updateMemberMissionStatusToComplete(Long memberMissionId);
 }
