@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.converter.MissionConverter;
 import umc.spring.converter.StoreConverter;
@@ -45,10 +47,11 @@ public class StoreRestController {
     }
 
     @Operation(summary = "리뷰 추가 API", description = "특정 가게에 리뷰를 추가합니다.")
-    @PostMapping("/{storeId}/reviews")
+    @PostMapping(value = "/{storeId}/reviews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse<StoreResponseDTO.CreateReviewResultDTO> createReview(@ExistStores @PathVariable(name = "storeId") Long storeId,
-                                                                            @Valid @RequestBody StoreRequestDTO.CreateReviewDTO request) {
-        Review review = storeCommandService.createReview(storeId, request);
+                                                                            @Valid @RequestPart(name = "request") StoreRequestDTO.CreateReviewDTO request,
+                                                                            @RequestPart(name = "reviewPicture") MultipartFile reviewPicture) {
+        Review review = storeCommandService.createReview(storeId, request, reviewPicture);
         return ApiResponse.onSuccess(StoreConverter.toCreateReviewResultDTO(review));
     }
 

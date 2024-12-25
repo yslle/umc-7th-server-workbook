@@ -54,13 +54,11 @@ public class StoreConverter {
                 .build();
     }
 
-    public static List<ReviewImage> toReviewImages(Review review, List<String> imageUrls) {
-        return imageUrls.stream()
-                .map(url -> ReviewImage.builder()
-                        .url(url)
-                        .review(review)
-                        .build())
-                .toList();
+    public static ReviewImage toReviewImage(String pictureUrl, Review review) {
+        return ReviewImage.builder()
+                .url(pictureUrl)
+                .review(review)
+                .build();
     }
 
     public static StoreResponseDTO.ReviewPreViewDTO reviewPreViewDTO(Review review){
