@@ -3,12 +3,16 @@ package umc.spring.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.RegionHandler;
 import umc.spring.apiPayload.exception.handler.StoreHandler;
+import umc.spring.aws.AmazonS3Manager;
 import umc.spring.converter.StoreConverter;
 import umc.spring.domain.*;
+import umc.spring.domain.common.Uuid;
 import umc.spring.repository.RegionRepository;
+import umc.spring.repository.UuidRepository;
 import umc.spring.repository.member.MemberRepository;
 import umc.spring.repository.review.ReviewImageRepository;
 import umc.spring.repository.review.ReviewRepository;
@@ -17,6 +21,7 @@ import umc.spring.web.dto.store.request.StoreRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final UuidRepository uuidRepository;
+    private final AmazonS3Manager s3Manager;
 
     @Override
     @Transactional
@@ -43,7 +50,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Override
     @Transactional
-    public Review createReview(Long storeId, StoreRequestDTO.CreateReviewDTO request) {
+    public Review createReview(Long storeId, StoreRequestDTO.CreateReviewDTO request, MultipartFile reviewPicture) {
         // 하드코딩된 멤버
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new RegionHandler(ErrorStatus.MEMBER_NOT_FOUND));
@@ -55,24 +62,23 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 //                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
 
         // Review 생성
-        Review newReview = StoreConverter.toReview(request);
-        newReview.setMember(member);
-        newReview.setStore(store.get());
+        Review review = StoreConverter.toReview(request);
+        review.setMember(member);
+        review.setStore(store.get());
 
-        Review savedReview = reviewRepository.save(newReview);
+        // Review Image
+        String uuid = UUID.randomUUID().toString();
+        Uuid savedUuid = uuidRepository.save(Uuid.builder()
+                .uuid(uuid).build());
 
-        // ReviewImage 처리
-        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty()) {
-            List<ReviewImage> reviewImages = StoreConverter.toReviewImages(savedReview, request.getImageUrls());
+        String pictureUrl = s3Manager.uploadFile(s3Manager.generateReviewKeyName(savedUuid), reviewPicture);
 
-            for (ReviewImage reviewImage : reviewImages) {
-                reviewImage.setReview(savedReview);
-                savedReview.getReviewImageList().add(reviewImage);
-            }
-            reviewImageRepository.saveAll(reviewImages);
-        }
+        review.setMember(memberRepository.findById(member.getId()).get());
+        review.setStore(storeRepository.findById(storeId).get());
 
-        return savedReview;
+
+        reviewImageRepository.save(StoreConverter.toReviewImage(pictureUrl, review));
+        return reviewRepository.save(review);
     }
 
 }
