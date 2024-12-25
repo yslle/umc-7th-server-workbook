@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://43.201.67.47:3306/umc7th?serverTimezone=Asia/Seoul
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
@@ -24,9 +24,9 @@ spring:
         registration:
           kakao:
             client-authentication-method: client_secret_post  # spring이 kakao에 client 자격 증명을 post 방식으로 전달
-            client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao # 인증 후 kakao가 사용자를 리다이렉트할 url
+            client-id: 7f61446222bedb30939ce2254d3b6614
+            client-secret: QVYU1G1GAYmQoTjYzwBeFA9QDI46pLFz
+            redirect-uri: http://43.201.67.47:8080/login/oauth2/code/kakao # 인증 후 kakao가 사용자를 리다이렉트할 url
             authorization-grant-type: authorization_code  # 사용할 OAuth 2.0 흐름: 웹 application 표준 흐름
             scope: profile_nickname # app이 요청하는 권한
             client-name: Kakao
